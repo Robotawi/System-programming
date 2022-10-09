@@ -4,7 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-    char *newargv[] = {NULL};
+    //Unix convention: argv[0] of a program is the command/file with which the program is involed 
+    char *newargv[] = {argv[1]};
     char *newenvp[] = {NULL};
 
     if (argc != 2)
