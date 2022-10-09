@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    //Unix convention: argv[0] of a program is the command/file with which the program is involed 
+    // Unix convention: argv[0] of a program is the command/file with which the program is invoced
     char *newargv[] = {argv[1]};
     char *newenvp[] = {NULL};
 
@@ -16,8 +16,8 @@ int main(int argc, char *argv[])
     }
 
     int exec_status = execve(argv[1], newargv, newenvp);
-    
-    printf("Program %s execution failed!\n",argv[1]);
+
+    printf("Program %s execution failed!\n", argv[1]);
 
     return 0;
 }
