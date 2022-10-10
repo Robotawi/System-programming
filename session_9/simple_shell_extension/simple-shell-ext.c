@@ -92,22 +92,28 @@ int main(int argc, char *argv[])
                 continue;
             }
 
+            int envvar_found = 0; 
             for (int i = 0; i < envvar_count; i++)
             {
                 if (strcmp(newargv[1], envvar_keys[i]) == 0)
-                {
+                {   envvar_found = 1; 
                     // set the environment variable
                     int setenv_status = setenv(envvar_keys[i], envvar_values[i], 1);
                     if (setenv_status == 0)
                     {   
                         //success
-                        continue;
+                        break;
                     }
                     else
                     {
-                        printf("export failed");
+                        printf("export failed\n");
+                        break;
                     }
                 }
+            }
+            if(envvar_found == 0){
+                printf("Error: no variable with the name %s is available\n", newargv[1]);
+                continue;
             }
         }
         // if the given is not a built-in command, fork and execvp
