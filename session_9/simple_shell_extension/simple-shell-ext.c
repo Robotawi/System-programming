@@ -6,9 +6,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-// make a fork (child process) and execve inside it a user-provided command.
-// The execve command replaces the child in memory by the provided command.
-
 int main(int argc, char *argv[])
 {
     char input_buf[100];
