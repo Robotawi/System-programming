@@ -16,7 +16,8 @@ int main(int argc, char const *argv[])
     }
 
     int src_fd = open(argv[1], O_RDONLY);
-    int dst_fd = open(argv[2], O_CREAT | O_WRONLY, 0644);
+    //int open(const char *path, int oflag, mode_t mode); mode is relevant only when creating files
+    int dst_fd = open(argv[2], O_CREAT | O_WRONLY, 0644); //0666 read & write for everyone
 
     int buf_size = 100;
     char buf[buf_size];
