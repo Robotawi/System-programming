@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
         for (int i = 2; i < argc; ++i)
         {
             input_size++; // for one space size
-            input_size += strlen(argv[2]); // for the next argv element size
+            input_size += strlen(argv[i]); // for the next argv element size
         }
     }
 
