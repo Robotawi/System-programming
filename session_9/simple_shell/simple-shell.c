@@ -7,7 +7,8 @@
 #include <sys/wait.h>
 
 // make a fork (child process) and execve inside it a user-provided command.
-// The execve command replaces the child in memory by the provided command.
+// The execvp command replaces the child in memory by the provided command.
+// & provides evironment variables to the child process though the environ variable
 
 int main(int argc, char *argv[])
 {
@@ -48,8 +49,6 @@ int main(int argc, char *argv[])
         }
         else if (ret_pid == 0)
         {
-            // exec the given command
-
             char *newargv[] = {input_buf, NULL};
             char *newenvp[] = {NULL};
 
