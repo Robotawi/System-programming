@@ -5,6 +5,8 @@ lec_3/staticlib/temp/*
 *.i
 *.save
 *.zip
+*.c.swp
+*.c~
 lec_2/dynamicexec
 lec_3/dynamiclib/driver/myexe
 lec_3/linking/link/myexe
@@ -73,3 +75,14 @@ lec_3/staticlib/driver/mynotes.txt
 lec_3/staticlib/driver/notes.txt
 lec_3/staticlib/driver/notes2.txt
 session_6/.swp
+session_7/hello.txt
+session_7/femto_unix_utils/build/*
+session_9/simple_shell_making_zombies/simple-shell-parent-no-wait
+
+monitor
+a.out
+settings.json
+*.o
+build/*
+*.json
+.github/**
