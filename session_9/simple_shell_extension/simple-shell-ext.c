@@ -63,9 +63,10 @@ int main(int argc, char *argv[])
             envvar_keys[envvar_count] = (char *)malloc(sizeof(idx + 1));
             strncpy(envvar_keys[envvar_count], command, idx);
             envvar_keys[envvar_count][idx] = '\0';
+
             envvar_values[envvar_count] = (char *)malloc(sizeof(strlen(command) - idx - 1));
             strncpy(envvar_values[envvar_count], command + idx + 1, strlen(command));
-            printf("got key = (%s), and key=(%s)\n",envvar_keys[envvar_count], envvar_values[envvar_count]);
+            // printf("got key = (%s), and key=(%s)\n",envvar_keys[envvar_count], envvar_values[envvar_count]);
             envvar_count++;
         }
         else if (cmd_set == 0)
