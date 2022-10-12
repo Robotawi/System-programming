@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
 
     // env variables live though the prog life cycle
     int envvar_count = 0;
-    char envvar_keys[20][20];
-    char envvar_values[20][20];
+    char *envvar_keys[20];
+    char *envvar_values[20];
 
     while (1)
     {
@@ -60,9 +60,12 @@ int main(int argc, char *argv[])
         if (eq_pos != NULL)
         {
             int idx = eq_pos - command;
+            envvar_keys[envvar_count] = (char *)malloc(sizeof(idx + 1));
             strncpy(envvar_keys[envvar_count], command, idx);
             envvar_keys[envvar_count][idx] = '\0';
+            envvar_values[envvar_count] = (char *)malloc(sizeof(strlen(command) - idx - 1));
             strncpy(envvar_values[envvar_count], command + idx + 1, strlen(command));
+            printf("got key = (%s), and key=(%s)\n",envvar_keys[envvar_count], envvar_values[envvar_count]);
             envvar_count++;
         }
         else if (cmd_set == 0)
@@ -89,16 +92,17 @@ int main(int argc, char *argv[])
                 continue;
             }
 
-            int envvar_found = 0; 
+            int envvar_found = 0;
             for (int i = 0; i < envvar_count; i++)
             {
                 if (strcmp(newargv[1], envvar_keys[i]) == 0)
-                {   envvar_found = 1; 
+                {
+                    envvar_found = 1;
                     // set the environment variable
                     int setenv_status = setenv(envvar_keys[i], envvar_values[i], 1);
                     if (setenv_status == 0)
-                    {   
-                        //success
+                    {
+                        // success
                         break;
                     }
                     else
@@ -108,7 +112,8 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-            if(envvar_found == 0){
+            if (envvar_found == 0)
+            {
                 printf("Error: no variable with the name %s is available\n", newargv[1]);
                 continue;
             }
@@ -142,6 +147,12 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
         }
+    }
+
+    for (int i = 0; i < envvar_count; ++i)
+    {
+        free(envvar_keys[i]);
+        free(envvar_values[i]);
     }
 
     return 0;
