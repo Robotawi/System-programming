@@ -5,15 +5,29 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
+
+// env variables live though the prog life cycle
+int envvar_count = 0;
+char *envvar_keys[50];
+char *envvar_values[50];
+
+void dealloc(int sig_num)
+{
+    for (int i = 0; i <= envvar_count; ++i)
+    {
+        free(envvar_keys[i]);
+        free(envvar_values[i]);
+    }
+    // printf("deallocation done!\n");
+    exit(0);
+}
 
 int main(int argc, char *argv[])
 {
     char input_buf[100];
 
-    // env variables live though the prog life cycle
-    int envvar_count = 0;
-    char *envvar_keys[20];
-    char *envvar_values[20];
+    signal(SIGINT, dealloc);
 
     while (1)
     {
@@ -31,6 +45,7 @@ int main(int argc, char *argv[])
 
         if (cmp_res == 0)
         {
+            dealloc(1);
             _exit(parent_status);
         }
 
@@ -60,12 +75,13 @@ int main(int argc, char *argv[])
         if (eq_pos != NULL)
         {
             int idx = eq_pos - command;
-            envvar_keys[envvar_count] = (char *)malloc(idx * sizeof(char));
+            envvar_keys[envvar_count] = (char *)malloc((idx + 1) * sizeof(char));
             strncpy(envvar_keys[envvar_count], command, idx);
             envvar_keys[envvar_count][idx] = '\0';
 
-            envvar_values[envvar_count] = (char *)malloc(sizeof((strlen(command) - idx - 1) * sizeof(char)));
-            strncpy(envvar_values[envvar_count], command + idx + 1, strlen(command));
+            envvar_values[envvar_count] = (char *)malloc((strlen(command) - idx + 1) * sizeof(char));
+            strncpy(envvar_values[envvar_count], command + idx + 1, strlen(command) - idx);
+            envvar_values[envvar_count][strlen(command) - idx] = '\0';
 
             envvar_count++;
         }
@@ -148,12 +164,6 @@ int main(int argc, char *argv[])
                 exit(-1);
             }
         }
-    }
-
-    for (int i = 0; i <= envvar_count; ++i)
-    {
-        free(envvar_keys[i]);
-        free(envvar_values[i]);
     }
 
     return 0;
