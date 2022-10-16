@@ -60,13 +60,13 @@ int main(int argc, char *argv[])
         if (eq_pos != NULL)
         {
             int idx = eq_pos - command;
-            envvar_keys[envvar_count] = (char *)malloc(sizeof(idx + 1));
+            envvar_keys[envvar_count] = (char *)malloc(idx * sizeof(char));
             strncpy(envvar_keys[envvar_count], command, idx);
             envvar_keys[envvar_count][idx] = '\0';
 
-            envvar_values[envvar_count] = (char *)malloc(sizeof(strlen(command) - idx - 1));
+            envvar_values[envvar_count] = (char *)malloc(sizeof((strlen(command) - idx - 1) * sizeof(char)));
             strncpy(envvar_values[envvar_count], command + idx + 1, strlen(command));
-            
+
             envvar_count++;
         }
         else if (cmd_set == 0)
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    for (int i = 0; i < envvar_count; ++i)
+    for (int i = 0; i <= envvar_count; ++i)
     {
         free(envvar_keys[i]);
         free(envvar_values[i]);
